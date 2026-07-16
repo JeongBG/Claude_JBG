@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K-Harvest | 대한민국 농산물, 세계의 식탁으로</title>
+<meta name="description" content="자연이 키우고 정성이 완성한 대한민국 농산물을 세계로. 신선하고 건강한 K-Harvest 프리미엄 농산물을 만나보세요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700;900&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-900:#0f2e1f;
+    --green-800:#163d28;
+    --green-700:#1b4332;
+    --green-600:#2d6a4f;
+    --green-500:#40916c;
+    --amber-600:#c9860a;
+    --amber-500:#e0a92e;
+    --amber-100:#fbead0;
+    --clay-600:#b0492f;
+    --cream-50:#faf7f1;
+    --cream-100:#f3ede1;
+    --cream-200:#e9dfcb;
+    --ink-900:#1c231d;
+    --ink-600:#4c574c;
+    --ink-400:#7c8a7c;
+    --white:#ffffff;
+    --shadow-sm: 0 2px 10px rgba(15,46,31,.08);
+    --shadow-md: 0 12px 30px rgba(15,46,31,.12);
+    --shadow-lg: 0 24px 60px rgba(15,46,31,.18);
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 10px;
+    --ease: cubic-bezier(.22,1,.36,1);
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family:'Noto Sans KR', sans-serif;
+    color:var(--ink-900);
+    background:var(--cream-50);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  img{ max-width:100%; display:block; }
+  a{ color:inherit; text-decoration:none; }
+  ul{ list-style:none; }
+  button{ font-family:inherit; cursor:pointer; border:none; background:none; }
+  h1,h2,h3,h4{ font-family:'Noto Serif KR', serif; line-height:1.3; }
+  .container{ width:min(1180px, 92%); margin-inline:auto; }
+  section{ position:relative; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:.78rem; font-weight:700; letter-spacing:.14em;
+    color:var(--green-600); text-transform:uppercase;
+    background:var(--amber-100); border:1px solid var(--amber-500);
+    padding:6px 14px; border-radius:999px; margin-bottom:18px;
+  }
+  .eyebrow::before{ content:"🌿"; font-size:.9em; }
+  .section-head{ max-width:640px; margin-bottom:52px; }
+  .section-head h2{ font-size:clamp(1.8rem,3.4vw,2.6rem); color:var(--green-900); font-weight:900; }
+  .section-head p{ margin-top:14px; color:var(--ink-600); font-size:1.02rem; }
+  .section-head.center{ margin-inline:auto; text-align:center; }
+
+  /* reveal animation */
+  .reveal{ opacity:0; transform:translateY(28px); transition:opacity .8s var(--ease), transform .8s var(--ease); }
+  .reveal.is-visible{ opacity:1; transform:translateY(0); }
+
+  /* ---------- Header ---------- */
+  .header{
+    position:fixed; inset:0 0 auto 0; z-index:100;
+    padding:18px 0;
+    transition:background .35s var(--ease), padding .35s var(--ease), box-shadow .35s var(--ease);
+  }
+  .header .container{ display:flex; align-items:center; justify-content:space-between; }
+  .header.scrolled{ background:rgba(250,247,241,.92); backdrop-filter:blur(10px); box-shadow:var(--shadow-sm); padding:12px 0; }
+  .logo{ display:flex; align-items:center; gap:10px; font-family:'Noto Serif KR',serif; font-weight:900; font-size:1.3rem; color:var(--green-900); }
+  .logo .mark{
+    width:38px; height:38px; border-radius:11px; display:grid; place-items:center;
+    background:linear-gradient(145deg,var(--green-600),var(--green-800)); color:var(--amber-500); font-size:1.15rem;
+    box-shadow:var(--shadow-sm);
+  }
+  .header.scrolled .logo, .header:not(.scrolled) .logo{ color:var(--green-900); }
+  .nav-links{ display:flex; align-items:center; gap:36px; }
+  .nav-links a{
+    font-weight:500; font-size:.94rem; color:var(--ink-900); position:relative; padding:4px 0;
+  }
+  .nav-links a::after{
+    content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background:var(--amber-600);
+    transition:width .3s var(--ease);
+  }
+  .nav-links a:hover::after, .nav-links a.active::after{ width:100%; }
+  .nav-cta{ display:flex; align-items:center; gap:18px; }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:13px 26px; border-radius:999px; font-weight:700; font-size:.92rem;
+    transition:transform .3s var(--ease), box-shadow .3s var(--ease), background .3s var(--ease);
+    white-space:nowrap;
+  }
+  .btn-primary{ background:var(--green-700); color:var(--white); box-shadow:var(--shadow-sm); }
+  .btn-primary:hover{ background:var(--green-800); transform:translateY(-3px); box-shadow:var(--shadow-md); }
+  .btn-ghost{ border:1.5px solid var(--green-700); color:var(--green-800); }
+  .btn-ghost:hover{ background:var(--green-700); color:var(--white); transform:translateY(-3px); }
+  .btn-amber{ background:var(--amber-500); color:var(--green-900); box-shadow:var(--shadow-sm); }
+  .btn-amber:hover{ background:var(--amber-600); transform:translateY(-3px); box-shadow:var(--shadow-md); }
+
+  .burger{ display:none; flex-direction:column; gap:5px; width:26px; }
+  .burger span{ height:2px; background:var(--green-900); border-radius:2px; transition:.3s var(--ease); }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    min-height:100vh; display:flex; align-items:center; padding-top:110px; padding-bottom:60px;
+    background:
+      radial-gradient(1100px 600px at 85% -10%, rgba(224,169,46,.28), transparent 60%),
+      radial-gradient(900px 500px at -10% 90%, rgba(64,145,108,.25), transparent 60%),
+      linear-gradient(180deg,#f6f1e6 0%, var(--cream-50) 60%);
+    overflow:hidden;
+  }
+  .hero .container{ display:grid; grid-template-columns:1.05fr .95fr; gap:60px; align-items:center; }
+  .hero-tag{ display:inline-flex; align-items:center; gap:8px; background:var(--white); border:1px solid var(--cream-200); padding:8px 16px; border-radius:999px; font-size:.82rem; font-weight:700; color:var(--green-700); box-shadow:var(--shadow-sm); margin-bottom:26px; }
+  .hero-tag span.dot{ width:8px; height:8px; border-radius:50%; background:var(--amber-500); }
+  .hero h1{ font-size:clamp(2.4rem, 5vw, 3.6rem); font-weight:900; color:var(--green-900); letter-spacing:-.01em; }
+  .hero h1 .accent{ color:var(--amber-600); position:relative; white-space:nowrap; }
+  .hero-sub{ margin-top:22px; font-size:1.08rem; color:var(--ink-600); max-width:520px; }
+  .hero-sub .en{ display:block; margin-top:10px; font-style:italic; color:var(--green-600); font-size:.96rem; }
+  .hero-actions{ display:flex; gap:16px; margin-top:36px; flex-wrap:wrap; }
+  .hero-meta{ display:flex; gap:30px; margin-top:52px; flex-wrap:wrap; }
+  .hero-meta div{ display:flex; flex-direction:column; }
+  .hero-meta strong{ font-size:1.5rem; font-family:'Noto Serif KR',serif; color:var(--green-800); }
+  .hero-meta span{ font-size:.8rem; color:var(--ink-400); margin-top:2px; }
+
+  .hero-visual{ position:relative; height:520px; }
+  .hero-card{
+    position:absolute; border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg);
+    display:flex; align-items:center; justify-content:center; text-align:center; flex-direction:column; gap:10px;
+    padding:20px;
+  }
+  .hero-card .emoji{ font-size:3rem; filter:drop-shadow(0 6px 10px rgba(0,0,0,.15)); }
+  .hero-card .cap{ font-weight:700; color:var(--white); font-size:1rem; }
+  .hc1{ width:62%; height:60%; top:0; right:0; background:linear-gradient(150deg,var(--green-600),var(--green-900)); animation:float1 7s ease-in-out infinite; }
+  .hc2{ width:52%; height:42%; bottom:0; left:0; background:linear-gradient(150deg,var(--amber-500),var(--clay-600)); animation:float2 8s ease-in-out infinite; }
+  .hc3{
+    width:46%; height:34%; bottom:6%; right:6%; background:var(--white); color:var(--green-900);
+    box-shadow:var(--shadow-md); flex-direction:row; gap:14px; padding:18px 20px; animation:float3 6.5s ease-in-out infinite;
+  }
+  .hc3 .badge-num{ font-size:1.7rem; font-weight:900; color:var(--green-700); font-family:'Noto Serif KR',serif; }
+  .hc3 .badge-txt{ font-size:.78rem; color:var(--ink-600); text-align:left; }
+  @keyframes float1{ 0%,100%{ transform:translateY(0px);} 50%{ transform:translateY(-14px);} }
+  @keyframes float2{ 0%,100%{ transform:translateY(0px);} 50%{ transform:translateY(12px);} }
+  @keyframes float3{ 0%,100%{ transform:translate(0,0);} 50%{ transform:translate(-6px,-8px);} }
+
+  .scroll-cue{ position:absolute; left:50%; bottom:26px; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:8px; color:var(--ink-400); font-size:.75rem; }
+  .scroll-cue .line{ width:1px; height:34px; background:linear-gradient(var(--ink-400), transparent); animation:scrollLine 1.8s infinite; }
+  @keyframes scrollLine{ 0%{ opacity:0; transform:scaleY(0); transform-origin:top;} 40%{ opacity:1; transform:scaleY(1); transform-origin:top;} 100%{ opacity:0; transform:scaleY(1); transform-origin:bottom;} }
+
+  /* ---------- Stats ---------- */
+  .stats{ background:var(--green-900); padding:64px 0; }
+  .stats .container{ display:grid; grid-template-columns:repeat(4,1fr); gap:30px; }
+  .stat-item{ text-align:center; color:var(--white); border-right:1px solid rgba(255,255,255,.12); }
+  .stat-item:last-child{ border-right:none; }
+  .stat-num{ font-family:'Noto Serif KR',serif; font-size:clamp(2rem,4vw,2.7rem); font-weight:900; color:var(--amber-500); }
+  .stat-label{ margin-top:8px; font-size:.85rem; color:rgba(255,255,255,.72); letter-spacing:.02em; }
+
+  /* ---------- About / Why ---------- */
+  .about{ padding:120px 0 100px; }
+  .feature-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:26px; }
+  .feature-card{
+    background:var(--white); border-radius:var(--radius-md); padding:32px 26px; box-shadow:var(--shadow-sm);
+    border:1px solid var(--cream-200); transition:transform .35s var(--ease), box-shadow .35s var(--ease);
+  }
+  .feature-card:hover{ transform:translateY(-8px); box-shadow:var(--shadow-md); border-color:var(--amber-500); }
+  .feature-icon{
+    width:54px; height:54px; border-radius:14px; display:grid; place-items:center; font-size:1.5rem;
+    background:var(--amber-100); margin-bottom:20px;
+  }
+  .feature-card h3{ font-size:1.12rem; color:var(--green-900); margin-bottom:10px; }
+  .feature-card p{ font-size:.92rem; color:var(--ink-600); }
+
+  /* ---------- Products ---------- */
+  .products{ padding:100px 0; background:var(--cream-100); }
+  .filter-bar{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:44px; }
+  .filter-btn{
+    padding:10px 20px; border-radius:999px; font-size:.88rem; font-weight:600; color:var(--green-800);
+    background:var(--white); border:1.5px solid var(--cream-200); transition:.3s var(--ease);
+  }
+  .filter-btn:hover{ border-color:var(--green-600); }
+  .filter-btn.active{ background:var(--green-700); color:var(--white); border-color:var(--green-700); }
+
+  .product-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+  .product-card{
+    background:var(--white); border-radius:var(--radius-md); overflow:hidden; box-shadow:var(--shadow-sm);
+    border:1px solid var(--cream-200); transition:transform .4s var(--ease), box-shadow .4s var(--ease);
+    display:flex; flex-direction:column;
+  }
+  .product-card:hover{ transform:translateY(-10px); box-shadow:var(--shadow-lg); }
+  .product-media{
+    height:170px; display:grid; place-items:center; font-size:3.4rem; position:relative;
+    background:linear-gradient(135deg, var(--pc1,#40916c), var(--pc2,#1b4332));
+  }
+  .product-media::after{
+    content:""; position:absolute; inset:0;
+    background-image:radial-gradient(circle at 20% 20%, rgba(255,255,255,.18) 0, transparent 40%);
+  }
+  .product-body{ padding:22px 22px 26px; flex:1; display:flex; flex-direction:column; }
+  .product-tag{ font-size:.72rem; font-weight:700; color:var(--amber-600); text-transform:uppercase; letter-spacing:.08em; margin-bottom:8px; }
+  .product-body h3{ font-size:1.15rem; color:var(--green-900); margin-bottom:8px; }
+  .product-body p{ font-size:.9rem; color:var(--ink-600); flex:1; }
+  .product-badges{ display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
+  .product-badges span{
+    font-size:.72rem; font-weight:600; padding:5px 10px; border-radius:999px; background:var(--amber-100); color:var(--green-800);
+    border:1px solid var(--amber-500);
+  }
+
+  /* ---------- Quality ---------- */
+  .quality{ padding:110px 0; }
+  .quality .container{ display:grid; grid-template-columns:.95fr 1.05fr; gap:70px; align-items:center; }
+  .quality-visual{ position:relative; height:440px; border-radius:var(--radius-lg); background:linear-gradient(150deg, var(--green-700), var(--green-900)); overflow:hidden; box-shadow:var(--shadow-lg); }
+  .quality-visual .qv-ring{ position:absolute; border:1px solid rgba(255,255,255,.18); border-radius:50%; }
+  .quality-visual .qv-ring.r1{ width:340px; height:340px; top:-60px; left:-60px; }
+  .quality-visual .qv-ring.r2{ width:220px; height:220px; bottom:-40px; right:-40px; }
+  .quality-visual .qv-center{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; color:var(--white); text-align:center; padding:30px;
+  }
+  .quality-visual .qv-center .emoji{ font-size:3.4rem; }
+  .quality-visual .qv-center h4{ font-family:'Noto Serif KR',serif; font-size:1.3rem; }
+  .quality-visual .qv-center p{ font-size:.86rem; color:rgba(255,255,255,.75); max-width:280px; }
+
+  .quality-list{ display:flex; flex-direction:column; gap:22px; }
+  .quality-row{ display:flex; gap:18px; align-items:flex-start; }
+  .quality-num{
+    flex:none; width:44px; height:44px; border-radius:12px; display:grid; place-items:center; font-weight:900;
+    background:var(--green-700); color:var(--white); font-family:'Noto Serif KR',serif;
+  }
+  .quality-row h4{ font-size:1.05rem; color:var(--green-900); margin-bottom:4px; }
+  .quality-row p{ font-size:.9rem; color:var(--ink-600); }
+
+  /* ---------- Global / Testimonials ---------- */
+  .global{ padding:110px 0; background:var(--green-900); color:var(--white); }
+  .global .section-head h2{ color:var(--white); }
+  .global .section-head p{ color:rgba(255,255,255,.7); }
+  .global .container{ display:grid; grid-template-columns:1fr 1fr; gap:70px; align-items:center; }
+  .map-wrap{ position:relative; height:380px; }
+  .map-dot{ position:absolute; width:12px; height:12px; border-radius:50%; background:var(--amber-500); box-shadow:0 0 0 6px rgba(224,169,46,.22); }
+  .map-dot::after{ content:attr(data-label); position:absolute; top:-26px; left:50%; transform:translateX(-50%); font-size:.72rem; white-space:nowrap; color:var(--white); background:rgba(255,255,255,.12); padding:3px 8px; border-radius:6px; }
+  .map-base{ position:absolute; inset:0; border-radius:var(--radius-lg); background:radial-gradient(circle at 50% 50%, rgba(64,145,108,.35), rgba(255,255,255,.03) 70%); border:1px dashed rgba(255,255,255,.18); }
+
+  .testimonial-card{ background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); border-radius:var(--radius-lg); padding:38px; backdrop-filter:blur(6px); }
+  .testimonial-quote{ font-size:1.08rem; line-height:1.7; min-height:130px; }
+  .testimonial-quote::before{ content:"“"; font-family:'Noto Serif KR',serif; font-size:2.4rem; color:var(--amber-500); line-height:0; display:block; margin-bottom:10px; }
+  .testimonial-author{ display:flex; align-items:center; gap:14px; margin-top:22px; }
+  .ta-avatar{ width:46px; height:46px; border-radius:50%; background:linear-gradient(135deg,var(--amber-500),var(--clay-600)); display:grid; place-items:center; font-weight:900; color:var(--white); }
+  .ta-name{ font-weight:700; }
+  .ta-role{ font-size:.8rem; color:rgba(255,255,255,.6); }
+  .testimonial-nav{ display:flex; gap:10px; margin-top:24px; }
+  .t-dot{ width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,.3); transition:.3s var(--ease); }
+  .t-dot.active{ background:var(--amber-500); width:24px; border-radius:6px; }
+
+  /* ---------- CTA / Contact ---------- */
+  .cta{ padding:110px 0; }
+  .cta .container{ display:grid; grid-template-columns:1fr 1fr; gap:60px; background:var(--white); border-radius:var(--radius-lg); box-shadow:var(--shadow-lg); overflow:hidden; }
+  .cta-info{ padding:56px 20px 56px 56px; }
+  .cta-info h2{ font-size:clamp(1.6rem,3vw,2.1rem); color:var(--green-900); margin-bottom:16px; }
+  .cta-info p{ color:var(--ink-600); margin-bottom:30px; }
+  .cta-points{ display:flex; flex-direction:column; gap:14px; }
+  .cta-points li{ display:flex; gap:10px; align-items:center; font-size:.94rem; color:var(--ink-900); }
+  .cta-points li::before{ content:"✔"; color:var(--green-600); font-weight:900; }
+  .cta-form{ background:var(--cream-100); padding:56px; display:flex; flex-direction:column; gap:16px; }
+  .field{ display:flex; flex-direction:column; gap:6px; }
+  .field label{ font-size:.82rem; font-weight:700; color:var(--green-800); }
+  .field input, .field select, .field textarea{
+    padding:13px 15px; border-radius:10px; border:1.5px solid var(--cream-200); background:var(--white);
+    font-family:inherit; font-size:.92rem; color:var(--ink-900); transition:border .25s var(--ease);
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{ outline:none; border-color:var(--green-600); }
+  .field textarea{ resize:vertical; min-height:90px; }
+  .form-msg{ font-size:.86rem; font-weight:600; min-height:20px; }
+  .form-msg.success{ color:var(--green-700); }
+
+  /* ---------- Footer ---------- */
+  footer{ background:var(--green-900); color:rgba(255,255,255,.7); padding:70px 0 30px; }
+  .footer-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; padding-bottom:44px; border-bottom:1px solid rgba(255,255,255,.12); }
+  .footer-logo{ display:flex; align-items:center; gap:10px; color:var(--white); font-family:'Noto Serif KR',serif; font-weight:900; font-size:1.25rem; margin-bottom:14px; }
+  .footer-col h4{ color:var(--white); font-size:.9rem; margin-bottom:16px; }
+  .footer-col ul{ display:flex; flex-direction:column; gap:10px; }
+  .footer-col a{ font-size:.88rem; transition:color .25s; }
+  .footer-col a:hover{ color:var(--amber-500); }
+  .footer-bottom{ padding-top:26px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; font-size:.8rem; }
+  .socials{ display:flex; gap:12px; }
+  .socials a{ width:36px; height:36px; border-radius:50%; border:1px solid rgba(255,255,255,.2); display:grid; place-items:center; transition:.3s var(--ease); }
+  .socials a:hover{ background:var(--amber-500); border-color:var(--amber-500); color:var(--green-900); }
+
+  .back-to-top{
+    position:fixed; right:26px; bottom:26px; width:48px; height:48px; border-radius:50%; background:var(--green-700);
+    color:var(--white); display:grid; place-items:center; box-shadow:var(--shadow-md); z-index:90;
+    opacity:0; pointer-events:none; transform:translateY(10px); transition:.35s var(--ease);
+  }
+  .back-to-top.show{ opacity:1; pointer-events:auto; transform:translateY(0); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:980px){
+    .nav-links{ display:none; }
+    .burger{ display:flex; }
+    .hero .container{ grid-template-columns:1fr; }
+    .hero-visual{ height:380px; margin-top:20px; }
+    .stats .container{ grid-template-columns:repeat(2,1fr); gap:34px 20px; }
+    .stat-item{ border-right:none; }
+    .feature-grid{ grid-template-columns:repeat(2,1fr); }
+    .product-grid{ grid-template-columns:repeat(2,1fr); }
+    .quality .container{ grid-template-columns:1fr; }
+    .global .container{ grid-template-columns:1fr; }
+    .cta .container{ grid-template-columns:1fr; }
+    .cta-info{ padding:44px 32px 0; }
+    .cta-form{ padding:32px; }
+    .footer-grid{ grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width:600px){
+    .feature-grid, .product-grid{ grid-template-columns:1fr; }
+    .stats .container{ grid-template-columns:repeat(2,1fr); }
+    .footer-grid{ grid-template-columns:1fr; }
+    .hero-meta{ gap:22px; }
+  }
+
+  /* mobile menu panel */
+  .mobile-menu{
+    position:fixed; inset:0; background:var(--cream-50); z-index:99; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:28px; transform:translateY(-100%); transition:transform .4s var(--ease);
+  }
+  .mobile-menu.open{ transform:translateY(0); }
+  .mobile-menu a{ font-size:1.4rem; font-weight:700; color:var(--green-900); }
+  .mobile-close{ position:absolute; top:24px; right:28px; font-size:1.6rem; color:var(--green-900); }
+</style>
+</head>
+<body>
+
+<header class="header" id="siteHeader">
+  <div class="container">
+    <a href="#home" class="logo"><span class="mark">🌾</span> K-Harvest</a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#home" class="active">홈</a>
+      <a href="#about">왜 K-농산물</a>
+      <a href="#products">농산물</a>
+      <a href="#quality">품질·인증</a>
+      <a href="#global">글로벌 파트너</a>
+      <a href="#contact">문의하기</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#contact" class="btn btn-primary">파트너십 문의</a>
+      <button class="burger" id="burgerBtn" aria-label="메뉴 열기"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose" aria-label="닫기">✕</button>
+  <a href="#home">홈</a>
+  <a href="#about">왜 K-농산물</a>
+  <a href="#products">농산물</a>
+  <a href="#quality">품질·인증</a>
+  <a href="#global">글로벌 파트너</a>
+  <a href="#contact">문의하기</a>
+</div>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-text">
+        <div class="hero-tag"><span class="dot"></span> 대한민국 청정 자연이 기른 프리미엄 농산물</div>
+        <h1>자연이 키우고,<br><span class="accent">정성</span>이 완성한 맛</h1>
+        <p class="hero-sub">
+          비옥한 토양과 사계절의 기후, 그리고 대를 이어온 농부의 정성이 만나
+          가장 신선하고 건강한 대한민국 농산물이 탄생합니다.
+          <span class="en">Grown by nature, perfected by care — Korean agriculture, now on tables around the world.</span>
+        </p>
+        <div class="hero-actions">
+          <a href="#products" class="btn btn-primary">농산물 둘러보기 →</a>
+          <a href="#contact" class="btn btn-ghost">수출 파트너 문의</a>
+        </div>
+        <div class="hero-meta">
+          <div><strong>45+</strong><span>수출 국가</span></div>
+          <div><strong>12,000+</strong><span>협력 농가</span></div>
+          <div><strong>100%</strong><span>품질 검수</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card hc1"><div class="emoji">🍎</div><div class="cap">사계절 신선 과일</div></div>
+        <div class="hero-card hc2"><div class="emoji">🌾</div><div class="cap">황금빛 국내산 쌀</div></div>
+        <div class="hero-card hc3">
+          <div class="badge-num">A+</div>
+          <div class="badge-txt">국가 인증 최상급<br>품질 등급</div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-cue"><span>SCROLL</span><span class="line"></span></div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="container">
+      <div class="stat-item"><div class="stat-num" data-count="12000" data-suffix="+">0</div><div class="stat-label">협력 농가 수</div></div>
+      <div class="stat-item"><div class="stat-num" data-count="45" data-suffix="개국">0</div><div class="stat-label">수출 국가</div></div>
+      <div class="stat-item"><div class="stat-num" data-count="230" data-suffix="만 톤">0</div><div class="stat-label">연간 생산량</div></div>
+      <div class="stat-item"><div class="stat-num" data-count="98" data-suffix="%">0</div><div class="stat-label">고객 재구매율</div></div>
+    </div>
+  </section>
+
+  <!-- ABOUT / WHY -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Why Korean Produce</span>
+        <h2>왜 세계가 대한민국 농산물을 주목할까요</h2>
+        <p>청정한 자연환경과 첨단 재배 기술, 그리고 엄격한 품질관리가 만든 믿을 수 있는 건강한 먹거리입니다.</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card reveal">
+          <div class="feature-icon">🏔️</div>
+          <h3>청정 자연환경</h3>
+          <p>사계절이 뚜렷한 기후와 맑은 물, 비옥한 토양이 농산물 본연의 맛과 영양을 극대화합니다.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">🔬</div>
+          <h3>과학적 품질관리</h3>
+          <p>파종부터 수확까지 전 과정을 이력 추적하며, 잔류농약·이물 검사를 통과한 제품만 출하합니다.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">🚢</div>
+          <h3>신선 직송 물류</h3>
+          <p>수확 후 콜드체인 시스템으로 신선도를 유지한 채 세계 각지로 빠르고 안전하게 배송합니다.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">🤝</div>
+          <h3>전통과 혁신의 조화</h3>
+          <p>수백 년 이어온 재배 노하우에 스마트팜 기술을 더해 지속가능한 농업을 실천합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section class="products" id="products">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Our Produce</span>
+        <h2>세계인의 식탁을 채울 대한민국 대표 농산물</h2>
+        <p>엄선된 카테고리별 프리미엄 농산물을 만나보세요. 모든 제품은 원산지 인증과 품질 등급을 획득했습니다.</p>
+      </div>
+
+      <div class="filter-bar reveal">
+        <button class="filter-btn active" data-filter="all">전체</button>
+        <button class="filter-btn" data-filter="grain">곡물</button>
+        <button class="filter-btn" data-filter="fruit">과일</button>
+        <button class="filter-btn" data-filter="veg">채소</button>
+        <button class="filter-btn" data-filter="fermented">발효식품</button>
+        <button class="filter-btn" data-filter="health">건강식품</button>
+      </div>
+
+      <div class="product-grid" id="productGrid">
+        <!-- items injected/rendered below, but written statically for no-JS fallback -->
+      </div>
+    </div>
+  </section>
+
+  <!-- QUALITY -->
+  <section class="quality" id="quality">
+    <div class="container">
+      <div class="quality-visual reveal">
+        <div class="qv-ring r1"></div>
+        <div class="qv-ring r2"></div>
+        <div class="qv-center">
+          <div class="emoji">🛡️</div>
+          <h4>3중 품질 보증 시스템</h4>
+          <p>생산 이력 추적부터 수출 전 최종 검수까지, 안심할 수 있는 먹거리를 약속합니다.</p>
+        </div>
+      </div>
+      <div class="quality-content">
+        <div class="section-head reveal" style="margin-bottom:36px;">
+          <span class="eyebrow">Quality &amp; Certification</span>
+          <h2>믿고 먹을 수 있는 이유</h2>
+          <p>국제 기준에 부합하는 인증 체계와 투명한 이력 관리로 신뢰할 수 있는 품질을 제공합니다.</p>
+        </div>
+        <div class="quality-list">
+          <div class="quality-row reveal">
+            <div class="quality-num">01</div>
+            <div><h4>GAP · HACCP 인증</h4><p>우수농산물관리제도(GAP)와 해썹(HACCP) 인증을 받은 농가·가공시설에서만 생산합니다.</p></div>
+          </div>
+          <div class="quality-row reveal">
+            <div class="quality-num">02</div>
+            <div><h4>원산지·이력 추적제</h4><p>QR코드 하나로 재배지, 수확일, 검사 결과까지 투명하게 확인할 수 있습니다.</p></div>
+          </div>
+          <div class="quality-row reveal">
+            <div class="quality-num">03</div>
+            <div><h4>잔류물질 정밀 검사</h4><p>국제 기준보다 엄격한 자체 기준으로 잔류농약 및 중금속을 검사합니다.</p></div>
+          </div>
+          <div class="quality-row reveal">
+            <div class="quality-num">04</div>
+            <div><h4>친환경·유기농 인증</h4><p>친환경 인증 농가 비중을 지속적으로 확대하며 지속가능한 농업을 실천합니다.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GLOBAL / TESTIMONIALS -->
+  <section class="global" id="global">
+    <div class="container">
+      <div class="map-wrap reveal">
+        <div class="map-base"></div>
+        <div class="map-dot" data-label="🇺🇸 USA" style="top:30%; left:14%;"></div>
+        <div class="map-dot" data-label="🇩🇪 Germany" style="top:20%; left:48%;"></div>
+        <div class="map-dot" data-label="🇯🇵 Japan" style="top:38%; left:82%;"></div>
+        <div class="map-dot" data-label="🇸🇬 Singapore" style="top:70%; left:72%;"></div>
+        <div class="map-dot" data-label="🇦🇺 Australia" style="top:82%; left:80%;"></div>
+        <div class="map-dot" data-label="🇦🇪 UAE" style="top:56%; left:58%;"></div>
+      </div>
+      <div>
+        <div class="section-head reveal" style="margin-bottom:30px;">
+          <span class="eyebrow" style="background:rgba(224,169,46,.15); border-color:var(--amber-500); color:var(--amber-500);">Global Partners</span>
+          <h2>세계 바이어들이 신뢰하는 K-Harvest</h2>
+          <p>45개국 이상의 파트너와 함께 대한민국 농산물의 우수성을 전하고 있습니다.</p>
+        </div>
+        <div class="testimonial-card reveal" id="testimonialCard">
+          <div class="testimonial-quote" id="testimonialText"></div>
+          <div class="testimonial-author">
+            <div class="ta-avatar" id="testimonialAvatar">A</div>
+            <div>
+              <div class="ta-name" id="testimonialName"></div>
+              <div class="ta-role" id="testimonialRole"></div>
+            </div>
+          </div>
+          <div class="testimonial-nav" id="testimonialDots"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / CONTACT -->
+  <section class="cta" id="contact">
+    <div class="container">
+      <div class="cta-info reveal">
+        <span class="eyebrow">Get In Touch</span>
+        <h2>지금 바로 K-Harvest와 함께하세요</h2>
+        <p>수출입 파트너십, 대량 구매, OEM 문의 등 무엇이든 편하게 남겨주세요. 담당자가 빠르게 연락드립니다.</p>
+        <ul class="cta-points">
+          <li>맞춤형 물량 및 포장 컨설팅 제공</li>
+          <li>콜드체인 국제 물류 지원</li>
+          <li>수출 서류 및 인증 절차 지원</li>
+        </ul>
+      </div>
+      <form class="cta-form reveal" id="contactForm">
+        <div class="field">
+          <label for="name">이름 / Name</label>
+          <input type="text" id="name" required placeholder="홍길동">
+        </div>
+        <div class="field">
+          <label for="company">회사명 / Company</label>
+          <input type="text" id="company" placeholder="회사명을 입력해주세요">
+        </div>
+        <div class="field">
+          <label for="country">국가 / Country</label>
+          <input type="text" id="country" required placeholder="예: United States">
+        </div>
+        <div class="field">
+          <label for="interest">관심 품목 / Interest</label>
+          <select id="interest">
+            <option>곡물</option>
+            <option>과일</option>
+            <option>채소</option>
+            <option>발효식품</option>
+            <option>건강식품</option>
+            <option>기타</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="message">문의 내용 / Message</label>
+          <textarea id="message" required placeholder="문의하실 내용을 남겨주세요"></textarea>
+        </div>
+        <button type="submit" class="btn btn-amber">문의 보내기</button>
+        <div class="form-msg" id="formMsg"></div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">🌾 K-Harvest</div>
+        <p style="font-size:.88rem; max-width:280px;">대한민국 청정 자연이 키운 프리미엄 농산물을 세계의 식탁으로 전합니다.</p>
+        <div class="socials" style="margin-top:20px;">
+          <a href="#" aria-label="Instagram">📷</a>
+          <a href="#" aria-label="Facebook">📘</a>
+          <a href="#" aria-label="YouTube">▶️</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>메뉴</h4>
+        <ul>
+          <li><a href="#about">왜 K-농산물</a></li>
+          <li><a href="#products">농산물</a></li>
+          <li><a href="#quality">품질·인증</a></li>
+          <li><a href="#global">글로벌 파트너</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>고객지원</h4>
+        <ul>
+          <li><a href="#contact">파트너십 문의</a></li>
+          <li><a href="#contact">수출 상담</a></li>
+          <li><a href="#contact">품질 인증서</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>연락처</h4>
+        <ul>
+          <li>export@k-harvest.example</li>
+          <li>+82-2-1234-5678</li>
+          <li>대한민국 서울특별시</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 K-Harvest. All rights reserved.</span>
+      <span>Grown in Korea, Loved by the World 🌍</span>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="맨 위로">↑</button>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- Header scroll state ---------- */
+  const header = document.getElementById('siteHeader');
+  const backToTop = document.getElementById('backToTop');
+  window.addEventListener('scroll', function(){
+    const scrolled = window.scrollY > 40;
+    header.classList.toggle('scrolled', scrolled);
+    backToTop.classList.toggle('show', window.scrollY > 500);
+  });
+  backToTop.addEventListener('click', function(){
+    window.scrollTo({ top:0, behavior:'smooth' });
+  });
+
+  /* ---------- Mobile menu ---------- */
+  const burgerBtn = document.getElementById('burgerBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileClose = document.getElementById('mobileClose');
+  function closeMenu(){ mobileMenu.classList.remove('open'); }
+  burgerBtn.addEventListener('click', function(){ mobileMenu.classList.add('open'); });
+  mobileClose.addEventListener('click', closeMenu);
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+  /* ---------- Active nav link on scroll ---------- */
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const sections = Array.from(navLinks).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const navObserver = new IntersectionObserver(function(entries){
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const id = '#' + entry.target.id;
+        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === id));
+      }
+    });
+  }, { rootMargin:'-45% 0px -50% 0px' });
+  sections.forEach(sec => navObserver.observe(sec));
+
+  /* ---------- Reveal on scroll ---------- */
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver(function(entries, obs){
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('is-visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold:0.15 });
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  /* ---------- Animated counters ---------- */
+  const counters = document.querySelectorAll('.stat-num');
+  const counterObserver = new IntersectionObserver(function(entries, obs){
+    entries.forEach(entry => {
+      if(!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = parseInt(el.dataset.count, 10);
+      const suffix = el.dataset.suffix || '';
+      const duration = 1600;
+      const start = performance.now();
+      function tick(now){
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(eased * target).toLocaleString() + suffix;
+        if(progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+      obs.unobserve(el);
+    });
+  }, { threshold:0.5 });
+  counters.forEach(el => counterObserver.observe(el));
+
+  /* ---------- Product data & rendering ---------- */
+  const products = [
+    { cat:'grain', icon:'🌾', name:'국내산 프리미엄 쌀', desc:'맑은 물과 비옥한 토양에서 자란 고품질 쌀로, 찰지고 고소한 풍미가 특징입니다.', badges:['GAP 인증','원산지 보증'], grad:['#40916c','#1b4332'] },
+    { cat:'grain', icon:'🫘', name:'국산 콩·서리태', desc:'단백질이 풍부한 국산 콩으로 두부, 된장 등 다양한 가공식품의 원료로 사용됩니다.', badges:['Non-GMO','친환경'], grad:['#2d6a4f','#0f2e1f'] },
+    { cat:'fruit', icon:'🍎', name:'청송 프리미엄 사과', desc:'일교차가 큰 산지에서 재배되어 당도가 높고 아삭한 식감을 자랑합니다.', badges:['당도 선별','저온 유통'], grad:['#e0a92e','#b0492f'] },
+    { cat:'fruit', icon:'🍑', name:'복숭아·자두', desc:'과즙이 풍부하고 향이 진한 여름 대표 과일로 전 세계 바이어에게 인기입니다.', badges:['당도 선별','신선 직송'], grad:['#e0a92e','#c9860a'] },
+    { cat:'fruit', icon:'🍊', name:'제주 감귤류', desc:'따뜻한 해양성 기후에서 자란 제주 감귤은 비타민C가 풍부하고 새콤달콤합니다.', badges:['비타민C','제철 수확'], grad:['#e0a92e','#b0492f'] },
+    { cat:'veg', icon:'🥬', name:'고랭지 배추', desc:'해발 700m 이상 청정 고랭지에서 재배되어 아삭하고 단맛이 뛰어납니다.', badges:['고랭지 재배','잔류농약 검사'], grad:['#40916c','#163d28'] },
+    { cat:'veg', icon:'🧄', name:'의성 마늘', desc:'항산화 성분이 풍부한 국산 마늘로 알싸하고 깊은 풍미를 제공합니다.', badges:['향균 성분','원산지 보증'], grad:['#2d6a4f','#1b4332'] },
+    { cat:'veg', icon:'🌶️', name:'청양 고추', desc:'매콤함과 감칠맛이 살아있는 국산 고추로 다양한 요리에 활용됩니다.', badges:['캡사이신 풍부','친환경'], grad:['#b0492f','#7c1d1d'] },
+    { cat:'fermented', icon:'🥢', name:'전통 발효 김치', desc:'유산균이 살아있는 전통 방식 발효 김치로 장 건강에 도움을 줍니다.', badges:['유산균 함유','HACCP'], grad:['#b0492f','#c9860a'] },
+    { cat:'fermented', icon:'🍶', name:'재래식 된장·고추장', desc:'전통 항아리 숙성 방식으로 깊은 맛과 풍부한 영양을 담았습니다.', badges:['장인 숙성','무첨가'], grad:['#c9860a','#7c4a0a'] },
+    { cat:'health', icon:'🌱', name:'6년근 홍삼', desc:'사포닌 함량이 높은 6년근 홍삼으로 면역력 강화에 도움을 줍니다.', badges:['사포닌 인증','GAP 재배'], grad:['#1b4332','#0f2e1f'] },
+    { cat:'health', icon:'🍯', name:'국산 벌꿀·건강식품', desc:'천연 그대로의 단맛과 영양을 담은 국산 벌꿀 및 건강 부산물입니다.', badges:['천연 원료','품질 검사'], grad:['#e0a92e','#c9860a'] },
+  ];
+
+  const grid = document.getElementById('productGrid');
+  function renderProducts(filter){
+    grid.innerHTML = '';
+    products
+      .filter(p => filter === 'all' || p.cat === filter)
+      .forEach((p, i) => {
+        const card = document.createElement('div');
+        card.className = 'product-card reveal';
+        card.innerHTML =
+          '<div class="product-media" style="--pc1:' + p.grad[0] + ';--pc2:' + p.grad[1] + '">' + p.icon + '</div>' +
+          '<div class="product-body">' +
+            '<div class="product-tag">' + categoryLabel(p.cat) + '</div>' +
+            '<h3>' + p.name + '</h3>' +
+            '<p>' + p.desc + '</p>' +
+            '<div class="product-badges">' + p.badges.map(b => '<span>' + b + '</span>').join('') + '</div>' +
+          '</div>';
+        grid.appendChild(card);
+        revealObserver.observe(card);
+        requestAnimationFrame(() => setTimeout(() => card.classList.add('is-visible'), i * 40));
+      });
+  }
+  function categoryLabel(cat){
+    return { grain:'곡물', fruit:'과일', veg:'채소', fermented:'발효식품', health:'건강식품' }[cat] || cat;
+  }
+  renderProducts('all');
+
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderProducts(btn.dataset.filter);
+    });
+  });
+
+  /* ---------- Testimonial slider ---------- */
+  const testimonials = [
+    { text:'K-Harvest의 사과는 당도와 신선도 면에서 저희가 거래해온 어떤 공급처보다 뛰어났습니다. 재구매는 당연한 선택입니다.', name:'Michael Anderson', role:'Fresh Produce Buyer, USA', avatar:'M' },
+    { text:'전통 발효 김치의 품질과 위생 관리 수준에 깊은 인상을 받았습니다. 독일 소비자들의 반응도 매우 긍정적입니다.', name:'Anna Weber', role:'Import Manager, Germany', avatar:'A' },
+    { text:'홍삼 제품의 사포닌 함량과 원산지 투명성이 저희 브랜드 기준에 완벽히 부합했습니다.', name:'Haruto Sato', role:'Health Products Distributor, Japan', avatar:'H' },
+    { text:'콜드체인 물류 덕분에 신선한 상태 그대로 상품을 받아볼 수 있어 매우 만족스러운 파트너십입니다.', name:'Lim Wei Ling', role:'Retail Chain Buyer, Singapore', avatar:'L' },
+  ];
+  let tIndex = 0;
+  const tText = document.getElementById('testimonialText');
+  const tName = document.getElementById('testimonialName');
+  const tRole = document.getElementById('testimonialRole');
+  const tAvatar = document.getElementById('testimonialAvatar');
+  const tDots = document.getElementById('testimonialDots');
+
+  testimonials.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 't-dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => showTestimonial(i));
+    tDots.appendChild(dot);
+  });
+
+  function showTestimonial(i){
+    tIndex = i;
+    const t = testimonials[i];
+    tText.style.opacity = 0;
+    setTimeout(() => {
+      tText.textContent = t.text;
+      tName.textContent = t.name;
+      tRole.textContent = t.role;
+      tAvatar.textContent = t.avatar;
+      tText.style.opacity = 1;
+    }, 200);
+    document.querySelectorAll('.t-dot').forEach((d, di) => d.classList.toggle('active', di === i));
+  }
+  tText.style.transition = 'opacity .3s ease';
+  showTestimonial(0);
+  setInterval(() => showTestimonial((tIndex + 1) % testimonials.length), 5000);
+
+  /* ---------- Contact form ---------- */
+  const form = document.getElementById('contactForm');
+  const formMsg = document.getElementById('formMsg');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    formMsg.textContent = '문의가 정상적으로 접수되었습니다. 빠른 시일 내에 연락드리겠습니다. 감사합니다!';
+    formMsg.classList.add('success');
+    form.reset();
+    setTimeout(() => { formMsg.textContent = ''; formMsg.classList.remove('success'); }, 6000);
+  });
+
+})();
+</script>
+</body>
+</html>

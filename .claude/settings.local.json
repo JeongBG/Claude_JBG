@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(open /Users/byunggiljeong/Claude_JBG/index.html)",
+      "Bash(python3 -c ' *)"
+    ]
+  }
+}
