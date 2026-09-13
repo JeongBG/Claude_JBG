@@ -1,0 +1,272 @@
+/* src/styles.css - Wafer 열화상 온도 분석 대시보드 스타일 */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.app-header {
+  background: #111827;
+  color: #f9fafb;
+  padding: 24px 32px;
+}
+
+.app-header h1 {
+  margin: 0 0 4px;
+  font-size: 22px;
+}
+
+.app-subtitle {
+  margin: 0;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.app-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 32px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.panel {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+
+.panel-title {
+  margin: 0 0 16px;
+  font-size: 17px;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 8px;
+}
+
+/* 기능 1: 갤러리 */
+.gallery-section {
+  margin-bottom: 20px;
+}
+
+.gallery-section:last-child {
+  margin-bottom: 0;
+}
+
+.gallery-section h3 {
+  font-size: 14px;
+  color: #4b5563;
+  margin: 0 0 10px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.gallery-card {
+  margin: 0;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f9fafb;
+}
+
+.gallery-card img {
+  display: block;
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  cursor: zoom-in;
+}
+
+.gallery-card figcaption {
+  padding: 6px 8px;
+  font-size: 13px;
+  text-align: center;
+  color: #374151;
+}
+
+/* 기능 2: wafer 분석 */
+.uniformity-summary {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+
+.uniformity-badge {
+  display: flex;
+  flex-direction: column;
+}
+
+.uniformity-label {
+  font-size: 12px;
+  color: #0369a1;
+}
+
+.uniformity-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0c4a6e;
+}
+
+.uniformity-detail {
+  font-size: 13px;
+  color: #0369a1;
+}
+
+.wafer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.quadrant-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+
+.quadrant-card h4 {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.heatmap-canvas {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+}
+
+.quadrant-stat-card {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #374151;
+}
+
+/* 기능 3: 비교 */
+.mapping-banner {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  color: #92400e;
+  font-size: 13px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.compare-row {
+  border-top: 1px solid #e5e7eb;
+  padding: 16px 0;
+}
+
+.compare-row:first-of-type {
+  border-top: none;
+}
+
+.compare-row h4 {
+  margin: 0 0 12px;
+  font-size: 14px;
+}
+
+.compare-panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.compare-panel {
+  text-align: center;
+}
+
+.compare-panel h5 {
+  margin: 0 0 6px;
+  font-size: 13px;
+  color: #4b5563;
+}
+
+.delta-avg-label {
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* 공통 배지 */
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.badge-warning {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+/* 이미지 확대 모달 */
+.image-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.image-modal.is-open {
+  display: flex;
+}
+
+.image-modal-content {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  max-width: 90vw;
+  max-height: 90vh;
+  position: relative;
+  text-align: center;
+}
+
+.image-modal-content img {
+  max-width: 100%;
+  max-height: 75vh;
+  display: block;
+  margin: 0 auto 8px;
+}
+
+.image-modal-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border: none;
+  background: #111827;
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+}
